@@ -1,29 +1,41 @@
 #include <wx/wx.h>
 #include <memory>
 #include <iostream>
+#include "main.h"
+#include <wx/notebook.h>
+
+mainWindow::mainWindow() : wxFrame(NULL, wxID_ANY, "KSProfiles") {
+	Center();
+	menuBar = new wxMenuBar();
+	SetMenuBar(menuBar);
+	menuBar->Show(true);
+
+	wxMenu * fileMenu = new wxMenu;
+
+	menuBar->Append(fileMenu, "File");
+	fileMenu->Append(wxID_EXIT);
+
+	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(mainWindow::OnQuit));
 
 
-class windowDeleter {
-	public:
-		void operator()(wxFrame* window){window->Destroy();}
-};
-
-class mainApp : public wxApp {
-	public:
-		mainApp();
-		bool OnInit();
-	private:
-		std::unique_ptr<wxFrame, windowDeleter> mainWindow;
-};
-
-IMPLEMENT_APP(mainApp);
-
-mainApp::mainApp(){
+	tabManager = new wxNotebook(this, wxID_ANY);	
+	wxWindow * test = new wxWindow(tabManager, wxID_ANY);
+	wxWindow * test2 = new wxWindow(tabManager, wxID_ANY);
+	tabManager->AddPage(test, "TEST", true);	
+	tabManager->AddPage(test2, "TEST2");
 }
+
+
+void mainWindow::OnQuit(wxCommandEvent&){
+	Close(true);
+}
+
 
 bool mainApp::OnInit(){
-	mainWindow.reset(new wxFrame(NULL, wxID_ANY, "Test"));
-	mainWindow->Show(true);
-	SetTopWindow(mainWindow.get());
+	topWindow.reset(new mainWindow);
+	topWindow->Show(true);
+	SetTopWindow(topWindow.get());
 	return true;
 }
+
+IMPLEMENT_APP(mainApp);
