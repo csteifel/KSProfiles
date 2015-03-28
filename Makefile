@@ -4,13 +4,14 @@ WXLIBS=$(shell wx-config --libs)
 CXXFLAGS= -std=c++11 -Wall -Wno-reorder -Wextra $(WXFLAGS)
 LDLIBS+=$(WXLIBS)
 
-objects = main.o
+objects = main.o preferences.o
 
 all: $(objects)
 	$(CC) $(CXXFLAGS) -o ksprofiles.out $(objects) $(LDLIBS)
 
 
-main.o: main.h main.cpp
+preferences.o: preferences.cpp preferences.h
+main.o: main.h main.cpp preferences.h
 
 
 clean:
