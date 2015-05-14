@@ -23,8 +23,8 @@ class mainApp : public wxApp {
 class mainWindow : public wxFrame {
 	public:
 		mainWindow();	
-		void OnQuit(wxCommandEvent&);
-		void OpenPreferences(wxCommandEvent&);
+		void onQuit(wxCommandEvent&);
+		void openPreferences(wxCommandEvent&);
 	private:
 		wxMenuBar * menuBar;
 		wxNotebook * tabManager;
